@@ -233,6 +233,8 @@ class APIService {
 /**
  * Map Handler
  */
+/*
+
 class MapHandler {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
@@ -280,6 +282,7 @@ class MapHandler {
         });
     }
 }
+*/
 
 /**
  * Utility Functions
@@ -348,3 +351,256 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+
+
+// Initialize Map
+/*
+function initMap() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                },
+                zoom: 15
+            });
+
+            new google.maps.Marker({
+                position: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                },
+                map: map,
+                title: 'Your Location'
+            });
+        });
+    }
+}
+*/
+
+
+
+// Handle Sign Up
+document.getElementById('signup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const couponCode = document.getElementById('coupon-code').value;
+    const email = document.getElementById('signup-email').value;
+    const password = document.getElementById('signup-password').value;
+
+    if (!email || !password) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    if (couponCode) {
+        alert('Welcome! Your coupon code has been applied. Enjoy 20% off your first order!');
+    } else {
+        alert('Account created successfully!');
+    }
+    closeModal('signup-modal');
+    return;
+});
+
+// Handle Login
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    if (!email || !password) {
+        alert('Please fill in all required fields.');
+        return;
+    }
+
+    alert('Logged in successfully!');
+    closeModal('login-modal');
+    return;
+});
+
+// Function to close modal
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+// Function to ignore the page
+function ignorePage(modalId) {
+    closeModal(modalId);
+    alert('You have chosen to ignore this page.');
+}
+
+// Add event listeners for ignore buttons
+document.getElementById('ignore-signup').addEventListener('click', function() {
+    ignorePage('signup-modal');
+});
+
+document.getElementById('ignore-login').addEventListener('click', function() {
+    ignorePage('login-modal');
+});
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        closeModal(event.target.id);
+    }
+}
+
+// Close modals when pressing the Esc key
+window.onkeydown = function(event) {
+    if (event.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(modal => {
+            if (modal.style.display === 'flex') {
+                closeModal(modal.id);
+            }
+        });
+    }
+}
+
+
+
+
+// Handle Newsletter Subscription
+document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Thank you for subscribing to our newsletter!');
+});
+
+
+
+
+
+// Authentication Modal Functions
+function showModal(type) {
+    document.getElementById(`${type}-modal`).style.display = 'flex';
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+    }
+}
+
+// Handle Sign Up
+document.getElementById('signup-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const couponCode = formData.get('coupon-code');
+
+    // Validate form data
+    if (!validateForm(formData)) {
+        return;
+    }
+
+    // Check coupon code
+    if (couponCode) {
+        if (validateCouponCode(couponCode)) {
+            alert('Welcome! Your coupon code has been applied. Enjoy 20% off your first order!');
+        } else {
+            alert('Invalid coupon code. Please try again.');
+            return;
+        }
+    }
+
+    // Simulate API call
+    simulateSignup(formData)
+        .then(() => {
+            alert('Account created successfully!');
+            document.getElementById('signup-modal').style.display = 'none';
+            this.reset();
+        })
+        .catch(error => {
+            alert('Error creating account: ' + error.message);
+        });
+});
+
+// Handle Login
+document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+
+    // Validate form data
+    if (!validateForm(formData)) {
+        return;
+    }
+
+    // Simulate API call
+    simulateLogin(formData)
+        .then(() => {
+            alert('Logged in successfully!');
+            document.getElementById('login-modal').style.display = 'none';
+            this.reset();
+        })
+        .catch(error => {
+            alert('Error logging in: ' + error.message);
+        });
+});
+
+// Handle Newsletter Subscription
+document.getElementById('newsletter-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = this.querySelector('input[type="email"]').value;
+
+    if (!validateEmail(email)) {
+        alert('Please enter a valid email address.');
+        return;
+    }
+
+    // Simulate API call
+    simulateNewsletterSubscription(email)
+        .then(() => {
+            alert('Thank you for subscribing to our newsletter!');
+            this.reset();
+        })
+        .catch(error => {
+            alert('Error subscribing: ' + error.message);
+        });
+});
+
+// Form Validation
+function validateForm(formData) {
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    if (!validateEmail(email)) {
+        alert('Please enter a valid email address.');
+        return false;
+    }
+
+    if (password && password.length < 6) {
+        alert('Password must be at least 6 characters long.');
+        return false;
+    }
+
+    return true;
+}
+
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
+
+function validateCouponCode(code) {
+    // Add your coupon code validation logic here
+    return code.length === 6 && /^[A-Z0-9]+$/.test(code);
+}
+
+// API Simulation Functions
+function simulateSignup(formData) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+    });
+}
+
+function simulateLogin(formData) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+    });
+}
+
+function simulateNewsletterSubscription(email) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, 1000);
+    });
+}
