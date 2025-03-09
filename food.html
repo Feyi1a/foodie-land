@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasty Delights</title>
+    <link rel="stylesheet" href="/food-land.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="/food-land.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="logo">Tasty Delights</div>
+        <div class="nav-links">
+            <a href="#" onclick="showModal('login')">Login</a>
+            <a href="#" onclick="showModal('signup')">Sign Up</a>
+            <a href="#menu">Menu</a>
+            <a href="#location">Location</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Experience Culinary Excellence</h1>
+            <p>Discover the finest dishes from around the world</p>
+            <button onclick="showModal('signup')">Join Now</button>
+        </div>
+    </section>
+
+    <section id="menu" class="slider-container">
+        <h2>Our Specialties</h2>
+        <div class="slider">
+            <div class="slide">
+                <img src="/api/placeholder/300/200" alt="Food 1">
+                <div class="slide-content">
+                    <h3>Gourmet Pasta</h3>
+                    <p>Handmade pasta with authentic Italian sauce</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/api/placeholder/300/200" alt="Food 2">
+                <div class="slide-content">
+                    <h3>Grilled Salmon</h3>
+                    <p>Fresh Atlantic salmon with herbs</p>
+                </div>
+            </div>
+            <div class="slide">
+                <img src="/api/placeholder/300/200" alt="Food 3">
+                <div class="slide-content">
+                    <h3>Beef Steak</h3>
+                    <p>Premium cut with signature sauce</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="location">
+        <div id="map"></div>
+    </section>
+
+    <section class="newsletter">
+        <h2>Subscribe to Our Newsletter</h2>
+        <p>Get special offers and updates delivered to your inbox</p>
+        <form id="newsletter-form">
+            <div class="form-group">
+                <input type="email" placeholder="Enter your email" required>
+            </div>
+            <button type="submit">Subscribe</button>
+        </form>
+    </section>
+
+    <!-- Authentication Modals -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <h2>Sign Up</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" placeholder="Coupon Code (Optional)" id="coupon-code">
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <script src="script.js"></script>
+</body>
+</html>
